@@ -1,0 +1,20 @@
+name: WireGuard Tunnel
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  wireguard:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Cloudflared Tunnel
+      run: |
+        echo ${{ secrets.TUNNEL_TOKEN }} > tunnel.json
+        cloudflared tunnel --config tunnel.json run
